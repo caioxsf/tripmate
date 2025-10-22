@@ -13,11 +13,12 @@ export default function TripDetailsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#0D1117',
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        color: '#FFFFFF',
     },
 });
