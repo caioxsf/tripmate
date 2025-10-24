@@ -5,10 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen';
-import TripsScreen from '../screens/TripsScreen';
-import BudgetScreen from '../screens/BudgetScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import TripDetailsScreen from '../screens/TripDetailsScreen';
+import TripsScreen from '../screens/trips/TripsScreen';
+import BudgetScreen from '../screens/budgets/BudgetScreen';
+import ProfileScreen from '../screens/profile/ProfileScreen';
+import TripDetailsScreen from '../screens/trips/TripDetailsScreen';
+import CreateTrip from '../screens/trips/CreateTrip';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,6 +87,16 @@ export default function AppNavigator() {
                     options={{
                         title: 'Detalhes da Viagem',
                         headerBackTitle: 'Voltar'
+                    }}
+                />
+
+                <Stack.Screen
+                    name="CreateTrip"
+                    component={CreateTrip}
+                    options={{
+                        title: 'Nova Viagem',
+                        headerStyle: { backgroundColor: '#0D1117' },
+                        headerTintColor: '#00C2FF',
                     }}
                 />
             </Stack.Navigator>

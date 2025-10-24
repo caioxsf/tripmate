@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headerCenter}>
@@ -18,32 +21,114 @@ export default function HomeScreen() {
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Viagens Recentes</Text>
-                    <Text style={styles.sectionLink}>Ver todas</Text>
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Viagens Recentes</Text>
+                <Text style={styles.sectionLink}>Ver todas</Text>
+            </View>
+
+            <View style={styles.containerCard}>
+                <View style={styles.containerTitle}>
+                    <Text style={styles.titleFerias}>Férias em Paris</Text>
+                    <Text style={styles.cardAtividades}>1 atividades</Text>
                 </View>
 
-                <View style={styles.card}>
-                    <View style={styles.cardLeft}>
-                        <Text style={styles.cardTitle}>Férias em Paris</Text>
-                        <Text style={styles.cardSubtitle}>Paris, França</Text>
-                        <Text style={styles.cardDate}>14 jul - 21 jul 2025</Text>
+
+                <View style={styles.containerLocationDate}>
+                    <View style={styles.containerLocation}>
+                        <Ionicons name="location-outline" size={14} color='#9AA5AD' />
+                        <Text style={styles.textLocation}>Paris, França</Text>
                     </View>
-                    <View style={styles.cardRight}>
-                        <View style={styles.activitiesBadge}>
-                            <Text style={styles.activitiesBadgeText}>1 atividades</Text>
-                        </View>
-                        <Text style={styles.cardBudgetLabel}>Orçamento total</Text>
-                        <Text style={styles.cardBudget}>R$ 3.500</Text>
+
+                    <View style={styles.containerLocation}>
+                        <Ionicons name="calendar-outline" size={14} color='#9AA5AD' />
+                        <Text style={styles.textLocation}>14 jul - 21 jul 2025</Text>
+                    </View>
+                </View>
+
+                <View style={styles.line}></View>
+
+                <View>
+                    <View style={styles.containerBudget}>
+                        <Text style={styles.textLocation}>Orçamento total</Text>
+                        <Text style={styles.textPrice}>R$ 3.500</Text>
                     </View>
                 </View>
             </View>
+
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    textPrice: {
+        color: '#00C2FF',
+        fontSize: 16,
+        fontWeight: '500',
+    },
+
+    containerBudget: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    line: {
+        height: 1,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        marginVertical: 12,
+    },
+
+    textLocation: {
+        color: '#9AA5AD',
+        fontSize: 16,
+    },
+
+    cardAtividades: {
+        backgroundColor: '#0f2632',
+        color: '#01b5f2',
+        textAlign: 'center',
+        paddingHorizontal: 12,
+        paddingTop: 2,
+        borderRadius: 12,
+        fontWeight: '500',
+    },
+
+    titleFerias: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: '500',
+    },
+
+    containerTitle: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 8,
+    },
+
+    containerCard: {
+        borderWidth: 1,
+        borderColor: 'rgba(219, 217, 217, 0.1)',
+        padding: 14,
+        borderRadius: 10,
+        backgroundColor: '#10141b',
+        marginBottom: 12,
+    },
+
+    containerLocationDate: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: 8,
+    },
+
+    containerLocation: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        marginBottom: 8,
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#0D1117',
@@ -52,6 +137,7 @@ const styles = StyleSheet.create({
     headerCenter: {
         alignItems: 'center',
         marginTop: 10,
+        marginBottom: 22,
     },
     avatar: {
         width: 72,
@@ -99,12 +185,12 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         color: '#FFFFFF',
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: '500',
     },
     sectionLink: {
         color: '#00C2FF',
-        fontSize: 13,
+        fontSize: 16,
     },
     card: {
         flexDirection: 'row',
@@ -123,13 +209,12 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         color: '#FFFFFF',
-        fontWeight: '700',
-        fontSize: 16,
+        fontWeight: '500',
+        fontSize: 18,
         marginBottom: 6,
     },
     cardSubtitle: {
         color: '#9AA5AD',
-        marginBottom: 8,
     },
     cardDate: {
         color: '#7C8890',
@@ -145,6 +230,7 @@ const styles = StyleSheet.create({
     activitiesBadgeText: {
         color: '#9EE8FF',
         fontSize: 12,
+        fontWeight: '500',
     },
     cardBudgetLabel: {
         color: '#9AA5AD',
