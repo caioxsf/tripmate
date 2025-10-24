@@ -94,7 +94,7 @@ export default function AppNavigator() {
                     name="CreateTrip"
                     component={CreateTrip}
                     options={{
-                        title: 'Nova Viagem',
+                        title: '',
                         headerStyle: { backgroundColor: '#0D1117' },
                         headerTintColor: '#00C2FF',
                     }}
