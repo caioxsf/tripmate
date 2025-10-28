@@ -16,7 +16,10 @@ export default function HomeScreen() {
                 <Text style={styles.appTitle}>Tripmate</Text>
                 <Text style={styles.subtitle}>Seu assistente pessoal de viagens</Text>
 
-                <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
+                <TouchableOpacity style={styles.ctaButton}
+                    activeOpacity={0.8}
+                    onPress={() => navigation.navigate('CreateTrip')}
+                    >
                     <Text style={styles.ctaText}>+   Criar Nova Viagem</Text>
                 </TouchableOpacity>
             </View>
