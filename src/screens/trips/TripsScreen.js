@@ -15,7 +15,8 @@ export default function TripsScreen() {
         try {
             setLoading(true);
             const data = await listarViagens();
-            setViagens(Array.isArray(data) ? data : []);
+            if (data != [])
+                setViagens(Array.isArray(data) ? data : []);
         } catch (e) {
             console.error('Erro ao listar viagens', e);
             setViagens([]);
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textMais: {
-        paddingBottom: 10,
+        paddingBottom: 6,
         color: '#00202A',
         fontSize: 32,
         fontWeight: '600',

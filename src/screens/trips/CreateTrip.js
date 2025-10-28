@@ -29,7 +29,7 @@ export default function CreateTrip() {
                 data_volta: String(endDate),
                 notas: notas || '',
             });
-            Alert.alert('Sucesso', `Viagem criada! ID: ${id}`);
+            Alert.alert('Sucesso', `Viagem criada!`);
             setNome('');
             setDestino('');
             setStartDate(null);

@@ -35,5 +35,7 @@ export async function criarViagem({ nome_viagem, destino, data_ida, data_volta, 
 export async function listarViagens() {
     const db = await getMobileDb();
     const rows = await db.getAllAsync('SELECT * FROM viagem ORDER BY id DESC;');
-    return rows;
+    if (rows.length > 0)
+        return rows;
+    return [];
 }

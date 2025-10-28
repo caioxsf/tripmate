@@ -1,11 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { listarViagens } from '../db/database';
+import { useState, useEffect } from 'react'
 
 export default function HomeScreen() {
     const navigation = useNavigation();
+    const [viagens, setViagens] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    async function carregar() {
+        try {
+            setLoading(true);
+            const data = await listarViagens();
+            if (data != [])
+                setViagens(Array.isArray(data) ? data : []);
+        } catch (e) {
+            console.error('Erro ao listar viagens', e);
+            setViagens([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        const unsub = navigation.addListener('focus', carregar);
+        carregar();
+        return unsub;
+    }, [navigation]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -19,7 +43,7 @@ export default function HomeScreen() {
                 <TouchableOpacity style={styles.ctaButton}
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('CreateTrip')}
-                    >
+                >
                     <Text style={styles.ctaText}>+   Criar Nova Viagem</Text>
                 </TouchableOpacity>
             </View>
@@ -29,37 +53,70 @@ export default function HomeScreen() {
                 <Text style={styles.sectionLink}>Ver todas</Text>
             </View>
 
-            <View style={styles.containerCard}>
-                <View style={styles.containerTitle}>
-                    <Text style={styles.titleFerias}>Férias em Paris</Text>
-                    <Text style={styles.cardAtividades}>1 atividades</Text>
-                </View>
+            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
 
+                {viagens.map((v) => (
+                    <TouchableOpacity
+                        key={v.id}
+                        style={styles.containerCard}
+                        activeOpacity={0.7}
+                        onPress={() => navigation.navigate('DetalhesViagem', { viagemId: v.id })}
+                    >
+                        <View style={styles.containerTitle}>
+                            <Text style={styles.titleFerias}>{v.nome_viagem || 'Sem nome'}</Text>
+                            <Text style={styles.cardAtividades}>0 atividades</Text>
+                        </View>
 
-                <View style={styles.containerLocationDate}>
-                    <View style={styles.containerLocation}>
-                        <Ionicons name="location-outline" size={14} color='#9AA5AD' />
-                        <Text style={styles.textLocation}>Paris, França</Text>
-                    </View>
+                        <View style={styles.containerLocationDate}>
+                            <View style={styles.containerLocation}>
+                                <Ionicons name="location-outline" size={14} color="#9AA5AD" />
+                                <Text style={styles.textLocation}>{v.destino || 'Sem destino'}</Text>
+                            </View>
 
-                    <View style={styles.containerLocation}>
-                        <Ionicons name="calendar-outline" size={14} color='#9AA5AD' />
-                        <Text style={styles.textLocation}>14 jul - 21 jul 2025</Text>
-                    </View>
-                </View>
+                            <View style={styles.containerLocation}>
+                                <Ionicons name="calendar-outline" size={14} color="#9AA5AD" />
+                                <Text style={styles.textLocation}>
+                                    {formatarPeriodo(v.data_ida, v.data_volta)}
+                                </Text>
+                            </View>
+                        </View>
 
-                <View style={styles.line}></View>
+                        <View style={styles.line} />
 
-                <View>
-                    <View style={styles.containerBudget}>
-                        <Text style={styles.textLocation}>Orçamento total</Text>
-                        <Text style={styles.textPrice}>R$ 3.500</Text>
-                    </View>
-                </View>
-            </View>
+                        <View>
+                            <View style={styles.containerBudget}>
+                                <Text style={styles.textLocation}>Orçamento total</Text>
+                                <Text style={styles.textPrice}>R$ 0</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+
+                {!loading && viagens.length === 0 && (
+                    <Text style={styles.textLocation}>Nenhuma viagem cadastrada.</Text>
+                )}
+            </ScrollView>
 
         </SafeAreaView>
     );
+}
+
+function formatarDataISO(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr); // ou já é Date
+    return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'short', // 'long' para nome completo
+        year: 'numeric',
+        timeZone: 'UTC', // ou sua TZ: 'America/Sao_Paulo'
+    }).format(d);
+}
+
+function formatarPeriodo(ida, volta) {
+    const i = formatarDataISO(ida);
+    const v = formatarDataISO(volta);
+    if (i && v) return `${i} - ${v}`;
+    return i || v || 'Sem datas';
 }
 
 const styles = StyleSheet.create({
